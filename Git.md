@@ -192,11 +192,11 @@ git branch -D xxx	//不做任何检查，强制删除
 
 ##### 解决冲突
 
-①处理文件中冲突的地方
+##### ①处理文件中冲突的地方
 
-②将解决完冲突的文件加入暂存区
+##### ②将解决完冲突的文件加入暂存区
 
-③提交到仓库
+##### ③提交到仓库
 
 
 
@@ -204,23 +204,23 @@ git branch -D xxx	//不做任何检查，强制删除
 
 一般有如下分支使用原则与流程
 
-①master(生产)分支
+##### ①master(生产)分支
 
 线上分支，主分支，中小规模项目作为线上运行的应用对应的分支
 
-②develop(开发)分支
+##### ②develop(开发)分支
 
 是master创建的分支，作为开发部门的主要开发分支，阶段开发结束后，是需要合并到master分支上
 
-③feature/xxx分支
+##### ③feature/xxx分支
 
 从develop创建的分支，一般是同期并行开发，分支上的研发任务完成后合并到develop分支上
 
-④hotfix/xxx分支
+##### ④hotfix/xxx分支
 
 从master派生的分支，一般为线上bug修复使用，修复完成后需要合并到master、test、develop分支
 
-⑤其他分支
+##### ⑤其他分支
 
 test分支（用于代码测试）、pre分支（预上线分支）等等
 
@@ -234,7 +234,7 @@ test分支（用于代码测试）、pre分支（预上线分支）等等
 
 ### 2.配置SSH公钥
 
-①生成SSH公钥
+##### ①生成SSH公钥
 
 ```
 ssh-keygen -t rsa		//生成SSH公钥
@@ -249,15 +249,15 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDV3E0TA90tJFUfzS3BpV4+BPlxMgryCFJXgb/FVSHS
 
 ```
 
-②Gitee设置账户共公钥
+##### ②Gitee设置账户共公钥
 
 ```
 cat ~/.ssh/id_rsa.pub		//获取公钥
 ```
 
-在gitee上粘贴公钥
+##### ③在gitee上粘贴公钥
 
-验证是否添加成功
+##### ④验证是否添加成功
 
 ```
 ssh -T git@gitee.com		//输入yes
@@ -267,21 +267,45 @@ ssh -T git@gitee.com		//输入yes
 
 ### 3.本地绑定远程仓库
 
-在创建的仓库中复制ssh地址
+##### ①在创建的仓库中复制ssh地址
+
+##### ②绑定远程仓库
 
 ```
 git remote add origin ssh地址 	//绑定远程仓库,origin为远程仓库名
 ```
 
-查看远程仓库是否添加成功
+##### ③查看远程仓库是否添加成功
 
 ```
 git remote
 ```
 
+##### ④删除指定远程仓库
+
+```
+git remote rm origin
+```
 
 
-### 4.代码推送
+
+### 4.代码推送至远程仓库
+
+##### ①若关联当前分支和远程分支，可以省略分支名和远端分支名
+
+```
+git push [-f] [--set-upstream] [远程名称[本地分支名][:远程分支名]]
+//-f 强制覆盖远程仓库
+//--set-upstream 推送到远端的同时建立起和远端分支的关联关系
+```
+
+```
+git push --set-upstream origin master:master	//设置本地分支和远程分支
+git branch -vv	//查看本地分支和远程仓库分支的信息
+git push	//设置完成后直接push
+```
+
+##### ②若远程分支名和本地分支名相同，则可以只写本地分支
 
 ```
 git push origin master
@@ -289,17 +313,31 @@ git push origin master
 
 
 
+### 5.从远程仓库克隆
+
+如果有一个远端仓库，我们可以直接clone到本地 
+
+```
+git clone <仓库路径> [本地目录]
+```
 
 
 
+### 6.从远程仓库中抓取和拉取
 
+远程分支和本地分支一样，我们可以进行merge操作，只是需要先把远端仓库里的更新都下载到本地，再进行操作
 
+##### ①抓取命令：将仓库里面的更新都抓取到本地，不会进行合并。但是不指定远端名和分支名，则抓取所有并更新当前分支
 
+```
+git fetch [remote name][branch name]
+```
 
+##### ②拉取指令：将远端仓库的修改拉到本地并进行合并，等同于fetch+merge。如果不指定远端名和分支名，则抓取所有并更新当前分支
 
-
-
-
+```
+git pull [remote name][branch name]
+```
 
 
 
